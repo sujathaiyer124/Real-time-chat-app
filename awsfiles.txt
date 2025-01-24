@@ -1,0 +1,66 @@
+AWS task
+Q1.  AWS Lambda Function to Add Two Numbers
+ans def lambda_handler(event, context):
+    # Retrieve numbers from the event
+    number1 = event.get('number1', 0)
+    number2 = event.get('number2', 0)
+
+    # Ensure numbers are valid integers or floats
+    try:
+        number1 = float(number1)
+        number2 = float(number2)
+    except ValueError:
+        return {
+            'statusCode': 400,
+            'body': 'Invalid input. Please provide valid numbers.'
+        }
+
+    # Perform the addition
+    result = number1 + number2
+
+    # Return the result
+    return {
+        'statusCode': 200,
+        'body': {
+            'number1': number1,
+            'number2': number2,
+            'result': result
+        }
+    }
+Q2.  AWS Lambda Function to Store a Document/PDF in an S3 Bucket
+ans: import boto3
+import base64
+
+# Initialize S3 client
+s3_client = boto3.client('s3')
+
+def lambda_handler(event, context):
+    # Retrieve bucket name and file details from the event
+    bucket_name = event.get('bucket_name')
+    file_name = event.get('file_name')
+    file_content_base64 = event.get('file_content')  # Base64-encoded content
+
+    # Validate inputs
+    if not bucket_name or not file_name or not file_content_base64:
+        return {
+            'statusCode': 400,
+            'body': 'Missing required parameters: bucket_name, file_name, or file_content.'
+        }
+
+    try:
+        # Decode the base64 content
+        file_content = base64.b64decode(file_content_base64)
+
+        # Upload the file to S3
+        s3_client.put_object(Bucket=bucket_name, Key=file_name, Body=file_content)
+
+        return {
+            'statusCode': 200,
+            'body': f'File "{file_name}" successfully uploaded to bucket "{bucket_name}".'
+        }
+
+    except Exception as e:
+        return {
+            'statusCode': 500,
+            'body': f'An error occurred: {str(e)}'
+        }
