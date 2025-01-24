@@ -1,0 +1,14 @@
+<div id="private-chat-container">
+    {% for message in messages %}
+        <div class="{% if message.sender == user %}sent{% else %}received{% endif %}">
+            <p>{{ message.content }}</p>
+            <span>{{ message.timestamp }}</span>
+        </div>
+    {% endfor %}
+</div>
+
+<form method="post" hx-post="{% url 'private_chat_view' other_user.username %}" hx-target="#private-chat-container" hx-swap="afterend">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Send</button>
+</form>

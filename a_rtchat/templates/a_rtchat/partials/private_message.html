@@ -1,0 +1,6 @@
+<!-- templates/a_rtchat/partials/private_message.html -->
+<!-- templates/a_rtchat/partials/private_message.html -->
+<div class="{% if message.sender == user %}sent{% else %}received{% endif %}">
+    <p>{{ message.content }}</p>
+    <span>{{ message.timestamp }}</span>
+</div>
