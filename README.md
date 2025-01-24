@@ -73,7 +73,7 @@ A Django-based real-time chat application with user authentication, private mess
 
 ## Installation
 bashCopy# Clone repository
-git clone https://github.com/yourusername/chat-app.git
+git clone https://github.com/sujathaiyer124/Real-time-chat-app.git
 
 # Create virtual environment
 - python -m venv venv
